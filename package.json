@@ -1,0 +1,20 @@
+{
+  "name": "api-yu-gi-oh",
+  "license": "0BSD",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@expo/metro-runtime": "~58.0.17",
+    "expo": "~58.0.24",
+    "expo-status-bar": "~58.0.5",
+    "react": "19.3.0",
+    "react-native": "0.88.1"
+  },
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "private": true
+}
