@@ -11,19 +11,24 @@ import {
 export default function Home() {
   const [data, setData] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     const obtenerDatos = async () => {
       try {
-        // Puedes pedir solo 50 cartas usando num y offset, o recortar el resultado
         const res = await fetch(
-          "https://ygoprodeck.com"
+          'https://ygoprodeck.com'
         );
+
+        if (!res.ok) {
+          throw new Error(`Error HTTP: ${res.status}`);
+        }
 
         const json = await res.json();
         setData(json.data || []);
       } catch (error) {
-        console.error("Error al obtener cartas:", error);
+        console.error('Error al obtener cartas:', error);
+        setErrorMsg(error.message);
       } finally {
         setCargando(false);
       }
@@ -34,9 +39,19 @@ export default function Home() {
 
   if (cargando) {
     return (
-      <View style={styles.cargando}>
+      <View style={styles.centrado}>
         <ActivityIndicator size="large" color="#d4af37" />
         <Text>Cargando cartas de Yu-Gi-Oh...</Text>
+      </View>
+    );
+  }
+
+  if (errorMsg) {
+    return (
+      <View style={styles.centrado}>
+        <Text style={{ color: 'red', textAlign: 'center' }}>
+          No se pudieron cargar las cartas: {errorMsg}
+        </Text>
       </View>
     );
   }
@@ -49,7 +64,6 @@ export default function Home() {
 
       <Image
         source={{
-          // Usamos image_url_small para cargar mucho más rápido en listas
           uri: carta.card_images?.[0]?.image_url_small,
         }}
         style={styles.imagen}
@@ -70,21 +84,32 @@ export default function Home() {
   );
 
   return (
-    <FlatList
-      data={data}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={renderCarta}
-      numColumns={2}
-      contentContainerStyle={styles.lista}
-      columnWrapperStyle={styles.fila}
-      initialNumToRender={10}
-      maxToRenderPerBatch={10}
-      windowSize={5}
-    />
+    <View style={styles.contenedor}>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderCarta}
+        numColumns={2}
+        contentContainerStyle={styles.lista}
+        columnWrapperStyle={styles.fila}
+        initialNumToRender={10}
+        maxToRenderPerBatch={10}
+        windowSize={5}
+        ListEmptyComponent={
+          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+            No se encontraron cartas.
+          </Text>
+        }
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  contenedor: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   lista: {
     padding: 10,
   },
@@ -125,7 +150,7 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     marginTop: 5,
   },
-  cargando: {
+  centrado: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
