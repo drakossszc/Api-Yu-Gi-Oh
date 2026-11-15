@@ -17,7 +17,7 @@ export default function Home() {
     const obtenerDatos = async () => {
       try {
         const res = await fetch(
-          'https://ygoprodeck.com'
+          'https://db.ygoprodeck.com/api/v7/cardinfo.php'
         );
 
         if (!res.ok) {
