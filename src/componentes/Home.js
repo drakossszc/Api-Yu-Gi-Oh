@@ -106,54 +106,99 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  contenedor: {
+  container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#081522',
+    padding: 15,
   },
-  lista: {
-    padding: 10,
-  },
-  fila: {
-    justifyContent: 'space-between',
-  },
-  item: {
-    backgroundColor: 'aliceblue',
-    width: '48%',
-    padding: 10,
-    alignItems: 'center',
-    marginBottom: 10,
-    borderRadius: 10,
-  },
-  nombre: {
+
+  title: {
+    color: '#F5D477',
+    fontSize: 27,
     fontWeight: 'bold',
-    fontSize: 15,
     textAlign: 'center',
-    marginBottom: 5,
+    marginVertical: 18,
+    letterSpacing: 1,
   },
-  imagen: {
-    width: 130,
+
+  subtitle: {
+    color: '#C6D0DC',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 18,
+  },
+
+  searchInput: {
+    backgroundColor: '#17283A',
+    color: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#B89445',
+    borderRadius: 10,
+    padding: 13,
+    marginBottom: 18,
+  },
+
+  cardContainer: {
+    backgroundColor: '#17283A',
+    borderWidth: 1.5,
+    borderColor: '#C9A44C',
+    borderRadius: 12,
+    padding: 10,
+    margin: 7,
+    flex: 1,
+    alignItems: 'center',
+    elevation: 6,
+  },
+
+  cardImage: {
+    width: '100%',
     height: 180,
     resizeMode: 'contain',
+    borderRadius: 7,
   },
-  id: {
-    fontSize: 12,
-    color: '#555',
-    marginTop: 5,
-  },
-  tipo: {
+
+  cardName: {
+    color: '#F5D477',
+    fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 5,
+    marginVertical: 8,
   },
-  descripcion: {
+
+  cardDescription: {
+    color: '#D5DDE6',
     fontSize: 11,
-    textAlign: 'justify',
-    marginTop: 5,
+    textAlign: 'center',
   },
-  centrado: {
-    flex: 1,
-    justifyContent: 'center',
+
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 10,
+  },
+
+  attack: {
+    color: '#FF7777',
+    fontWeight: 'bold',
+  },
+
+  defense: {
+    color: '#75B9FF',
+    fontWeight: 'bold',
+  },
+
+  button: {
+    backgroundColor: '#9C7933',
+    padding: 12,
+    borderRadius: 8,
     alignItems: 'center',
-    padding: 20,
+    marginTop: 12,
+  },
+
+  buttonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
   },
 });
+

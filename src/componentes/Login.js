@@ -49,22 +49,78 @@ navigation.navigate('Registro')} />
 }
 
 const styles = StyleSheet.create({
-container: {
-flex: 1,
+  container: {
+    flex: 1,
+    backgroundColor: '#081522',
+    justifyContent: 'center',
+    padding: 25,
+  },
 
-justifyContent: 'center',
-padding: 20,
-},
-titulo: {
-fontSize: 24,
-marginBottom: 20,
-textAlign: 'center'
-},
-input: {
-borderWidth: 1,
-borderColor: '#ccc',
-padding: 12,
-marginBottom: 12,
-borderRadius: 6,
-},
+  logo: {
+    width: 150,
+    height: 150,
+    alignSelf: 'center',
+    resizeMode: 'contain',
+    marginBottom: 15,
+  },
+
+  title: {
+    color: '#F5D477',
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+
+  subtitle: {
+    color: '#C6D0DC',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 30,
+  },
+
+  form: {
+    backgroundColor: '#17283A',
+    borderRadius: 15,
+    borderWidth: 1.5,
+    borderColor: '#C9A44C',
+    padding: 20,
+  },
+
+  input: {
+    backgroundColor: '#0B1927',
+    borderWidth: 1,
+    borderColor: '#A9873C',
+    borderRadius: 9,
+    padding: 14,
+    color: '#FFFFFF',
+    marginVertical: 8,
+  },
+
+  loginButton: {
+    backgroundColor: '#A68136',
+    padding: 15,
+    borderRadius: 9,
+    alignItems: 'center',
+    marginTop: 15,
+  },
+
+  buttonText: {
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+
+  registerText: {
+    color: '#F5D477',
+    textAlign: 'center',
+    marginTop: 20,
+    fontWeight: 'bold',
+  },
+
+  errorText: {
+    color: '#FF7777',
+    textAlign: 'center',
+    marginTop: 10,
+  },
 });

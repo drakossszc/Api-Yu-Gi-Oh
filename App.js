@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from'@react-navigation/native-stack';
@@ -62,3 +63,30 @@ return (
 
 );
 }
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: '#081522',
+    borderTopColor: '#C9A44C',
+    borderTopWidth: 1.5,
+    height: 68,
+    paddingBottom: 8,
+    paddingTop: 7,
+  },
+
+  tabLabel: {
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+
+  header: {
+    backgroundColor: '#101F30',
+    borderBottomWidth: 1,
+    borderBottomColor: '#C9A44C',
+  },
+
+  headerTitle: {
+    color: '#F5D477',
+    fontWeight: 'bold',
+    fontSize: 19,
+  },
+});
