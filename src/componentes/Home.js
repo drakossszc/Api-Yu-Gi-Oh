@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
@@ -40,8 +41,10 @@ export default function Home() {
   if (cargando) {
     return (
       <View style={styles.centrado}>
-        <ActivityIndicator size="large" color="#d4af37" />
-        <Text>Cargando cartas de Yu-Gi-Oh...</Text>
+        <ActivityIndicator size="large" color="#F5D477" />
+        <Text style={styles.textoCarga}>
+          Cargando cartas de Yu-Gi-Oh...
+        </Text>
       </View>
     );
   }
@@ -49,42 +52,94 @@ export default function Home() {
   if (errorMsg) {
     return (
       <View style={styles.centrado}>
-        <Text style={{ color: 'red', textAlign: 'center' }}>
-          No se pudieron cargar las cartas: {errorMsg}
+        <Text style={styles.error}>
+          No se pudieron cargar las cartas:
         </Text>
+        <Text style={styles.errorDetalle}>{errorMsg}</Text>
       </View>
     );
   }
 
-  const renderCarta = ({ item: carta }) => (
-    <View style={styles.item}>
-      <Text style={styles.nombre} numberOfLines={2}>
-        {carta.name}
-      </Text>
+  const renderCarta = ({ item: carta }) => {
+    const imagen =
+      carta.card_images?.[0]?.image_url_small ||
+      carta.card_images?.[0]?.image_url;
 
-      <Image
-        source={{
-          uri: carta.card_images?.[0]?.image_url_small,
-        }}
-        style={styles.imagen}
-      />
+    return (
+      <View style={styles.item}>
+        <Text style={styles.nombre} numberOfLines={2}>
+          {carta.name}
+        </Text>
 
-      <Text style={styles.id}>ID: {carta.id}</Text>
-      <Text style={styles.tipo}>{carta.type}</Text>
+        {imagen ? (
+          <Image
+            source={{ uri: imagen }}
+            style={styles.imagen}
+            resizeMode="contain"
+          />
+        ) : (
+          <View style={styles.imagenSinCarta}>
+            <Text style={styles.textoSinImagen}>
+              Imagen no disponible
+            </Text>
+          </View>
+        )}
 
-      {carta.attribute && <Text>Atributo: {carta.attribute}</Text>}
-      {carta.level != null && <Text>Nivel: {carta.level}</Text>}
-      {carta.atk != null && <Text>ATK: {carta.atk}</Text>}
-      {carta.def != null && <Text>DEF: {carta.def}</Text>}
+        <Text style={styles.tipo}>
+          {carta.type}
+        </Text>
 
-      <Text style={styles.descripcion} numberOfLines={4}>
-        {carta.desc}
-      </Text>
-    </View>
-  );
+        <Text style={styles.id}>
+          ID: {carta.id}
+        </Text>
+
+        {carta.attribute && (
+          <Text style={styles.dato}>
+            Atributo: {carta.attribute}
+          </Text>
+        )}
+
+        {carta.level != null && (
+          <Text style={styles.dato}>
+            Nivel: {carta.level} ⭐
+          </Text>
+        )}
+
+        {(carta.atk != null || carta.def != null) && (
+          <View style={styles.estadisticas}>
+            {carta.atk != null && (
+              <Text style={styles.ataque}>
+                ATK: {carta.atk}
+              </Text>
+            )}
+
+            {carta.def != null && (
+              <Text style={styles.defensa}>
+                DEF: {carta.def}
+              </Text>
+            )}
+          </View>
+        )}
+
+        <Text style={styles.descripcion} numberOfLines={4}>
+          {carta.desc}
+        </Text>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.contenedor}>
+      <View style={styles.encabezado}>
+        <Text style={styles.titulo}>
+          YU-GI-OH! CARDS
+        </Text>
+
+        <Text style={styles.subtitulo}>
+          Explora tu colección de cartas
+        </Text>
+      </View>
+
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
@@ -95,8 +150,9 @@ export default function Home() {
         initialNumToRender={10}
         maxToRenderPerBatch={10}
         windowSize={5}
+        removeClippedSubviews={true}
         ListEmptyComponent={
-          <Text style={{ textAlign: 'center', marginTop: 20 }}>
+          <Text style={styles.sinResultados}>
             No se encontraron cartas.
           </Text>
         }
@@ -106,99 +162,166 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contenedor: {
     flex: 1,
     backgroundColor: '#081522',
-    padding: 15,
   },
 
-  title: {
+  encabezado: {
+    backgroundColor: '#101F30',
+    paddingVertical: 20,
+    paddingHorizontal: 12,
+    borderBottomWidth: 2,
+    borderBottomColor: '#C9A44C',
+    alignItems: 'center',
+  },
+
+  titulo: {
     color: '#F5D477',
-    fontSize: 27,
+    fontSize: 25,
     fontWeight: 'bold',
-    textAlign: 'center',
-    marginVertical: 18,
-    letterSpacing: 1,
+    letterSpacing: 2,
   },
 
-  subtitle: {
+  subtitulo: {
     color: '#C6D0DC',
-    fontSize: 14,
-    textAlign: 'center',
-    marginBottom: 18,
+    fontSize: 13,
+    marginTop: 5,
   },
 
-  searchInput: {
-    backgroundColor: '#17283A',
-    color: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#B89445',
-    borderRadius: 10,
-    padding: 13,
-    marginBottom: 18,
+  lista: {
+    padding: 8,
+    paddingBottom: 25,
   },
 
-  cardContainer: {
+  fila: {
+    justifyContent: 'space-around',
+  },
+
+  item: {
+    flex: 1,
+    maxWidth: '48%',
     backgroundColor: '#17283A',
     borderWidth: 1.5,
     borderColor: '#C9A44C',
     borderRadius: 12,
-    padding: 10,
-    margin: 7,
-    flex: 1,
+    padding: 9,
+    margin: 5,
     alignItems: 'center',
     elevation: 6,
   },
 
-  cardImage: {
-    width: '100%',
-    height: 180,
-    resizeMode: 'contain',
-    borderRadius: 7,
-  },
-
-  cardName: {
+  nombre: {
     color: '#F5D477',
     fontSize: 14,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginVertical: 8,
+    minHeight: 38,
+    marginBottom: 7,
   },
 
-  cardDescription: {
+  imagen: {
+    width: '100%',
+    height: 185,
+    backgroundColor: '#0B1927',
+    borderRadius: 7,
+    marginBottom: 9,
+  },
+
+  imagenSinCarta: {
+    width: '100%',
+    height: 185,
+    backgroundColor: '#0B1927',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 9,
+  },
+
+  textoSinImagen: {
+    color: '#C6D0DC',
+    fontSize: 11,
+  },
+
+  tipo: {
+    color: '#F5D477',
+    fontSize: 11,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 5,
+  },
+
+  id: {
+    color: '#8496A9',
+    fontSize: 10,
+    marginBottom: 5,
+  },
+
+  dato: {
     color: '#D5DDE6',
     fontSize: 11,
-    textAlign: 'center',
+    marginVertical: 2,
   },
 
-  statsContainer: {
+  estadisticas: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     width: '100%',
+    marginTop: 9,
+    paddingVertical: 7,
+    backgroundColor: '#0B1927',
+    borderRadius: 6,
+  },
+
+  ataque: {
+    color: '#FF7777',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+
+  defensa: {
+    color: '#75B9FF',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+
+  descripcion: {
+    color: '#C6D0DC',
+    fontSize: 10,
+    textAlign: 'center',
+    lineHeight: 15,
+    marginTop: 9,
+  },
+
+  centrado: {
+    flex: 1,
+    backgroundColor: '#081522',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 25,
+  },
+
+  textoCarga: {
+    color: '#F5D477',
+    fontSize: 15,
+    marginTop: 15,
+  },
+
+  error: {
+    color: '#FF7777',
+    fontSize: 17,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  errorDetalle: {
+    color: '#FFFFFF',
+    textAlign: 'center',
     marginTop: 10,
   },
 
-  attack: {
-    color: '#FF7777',
-    fontWeight: 'bold',
-  },
-
-  defense: {
-    color: '#75B9FF',
-    fontWeight: 'bold',
-  },
-
-  button: {
-    backgroundColor: '#9C7933',
-    padding: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 12,
-  },
-
-  buttonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
+  sinResultados: {
+    color: '#F5D477',
+    textAlign: 'center',
+    marginTop: 30,
   },
 });
-
